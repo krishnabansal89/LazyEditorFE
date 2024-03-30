@@ -68,7 +68,7 @@ export default function Home() {
 
   const handleSubmit = async function(event:any) {
     event.preventDefault()
-    Toast.InfoshowToast("Helloooo")
+    
     if (file === null || file.length === 0) return;
     console.log("Submitted")
     const data_: FormData = new FormData()
@@ -78,17 +78,23 @@ export default function Home() {
       data_.append('file', file[files])
     }
     console.log(data_)
-    const res = await fetch('http://13.60.46.147:80/uploadfiles/', {
+    const res = await fetch('https://strangify.online/uploadfiles/', {
       headers: {
         'uId': id,
       },
       method: 'POST',
       body: data_,
     })
-    console.log(res)
+    // console.log(res)
+    if (res.status === 200) {
+      Toast.SuccessshowToast('Files uploaded successfully')
+    } else {
+      Toast.ErrorshowToast('Failed to upload files')
+    }
   }
   const getVideo = async function() {
-    const res = await fetch('http://13.60.46.147:80/get-video/' , {headers: {'uId': id,}})
+    Toast.InfoshowToast('Rendering video')
+    const res = await fetch('https://strangify.online/get-video/' , {headers: {'uId': id,}})
     var value = URL.createObjectURL(await res.blob());
     setVideo(value)
     const doc = document.createElement('a')
@@ -126,7 +132,8 @@ export default function Home() {
   };
 
   const deleteFiles = async function() {
-    const res = await fetch('http://13.60.46.147:80/delete-files/', {
+    Toast.InfoshowToast('Deleting Older files')
+    const res = await fetch('https://strangify.online/delete-files/', {
       headers: {
         'uId': id,
       },
