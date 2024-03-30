@@ -86,6 +86,7 @@ export default function Home() {
       body: data_,
     })
     // console.log(res)
+    setFile(null)
     if (res.status === 200) {
       Toast.SuccessshowToast('Files uploaded successfully')
     } else {
