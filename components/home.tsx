@@ -2,6 +2,27 @@
 import { useState  , useRef , useEffect} from "react"
 import { UploadIcon , ArchiveX , FileOutput } from "lucide-react";
 import toast from "react-hot-toast";
+import Joyride from "react-joyride";
+
+const steps = [
+  {
+    target : ".select",
+    content : "Select your Media here",
+  },
+  {
+    target : ".upload",
+    content : "Upload your Files . You can do it more than once",
+  },
+  {
+    target : ".clear",
+    content : " Clear the Previous uploaded files",
+  },
+  {
+    target : ".render",
+    content : "Render the Video",
+  }
+
+]
 
 
 export default function Home() {
@@ -78,7 +99,7 @@ export default function Home() {
       data_.append('file', file[files])
     }
     console.log(data_)
-    const res = await fetch('https://strangify.online/uploadfiles/', {
+    const res = await fetch('https://stingray-app-j38ah.ondigitalocean.app/uploadfiles/', {
       headers: {
         'uId': id,
       },
@@ -95,7 +116,7 @@ export default function Home() {
   }
   const getVideo = async function() {
     Toast.InfoshowToast('Rendering video')
-    const res = await fetch('https://strangify.online/get-video/' , {headers: {'uId': id,}})
+    const res = await fetch('https://stingray-app-j38ah.ondigitalocean.app/get-video/' , {headers: {'uId': id,}})
     var value = URL.createObjectURL(await res.blob());
     setVideo(value)
     const doc = document.createElement('a')
@@ -134,7 +155,7 @@ export default function Home() {
 
   const deleteFiles = async function() {
     Toast.InfoshowToast('Deleting Older files')
-    const res = await fetch('https://strangify.online/delete-files/', {
+    const res = await fetch('https://stingray-app-j38ah.ondigitalocean.app/delete-files/', {
       headers: {
         'uId': id,
       },
@@ -171,7 +192,8 @@ export default function Home() {
     <input type="file" onChange={handleChange} name="input_file" multiple />
     <button type="submit">Submit</button>
     </form> */}
-    <div className="w-[80%] h-[40vh] mx-auto mt-[20vh] rounded-[10vw] bg-gray-950 flex justify-center items-center custom-font text-white text-3xl border-2 border-dashed border-gray-500"
+    {/* <Joyride steps={steps} /> */}
+    <div className="w-[80%] select h-[40vh] mx-auto mt-[20vh] rounded-[10vw] bg-gray-950 flex justify-center items-center custom-font text-white text-3xl border-2 border-dashed border-gray-500"
         ref={DragandDropRef}
         onDragOver={handleDragOver}
         onDrop={handleDrop} 
@@ -180,16 +202,16 @@ export default function Home() {
         >
       Upload
     </div>
-    <div className=" flex justify-center space-x-20 ">
-      <button onClick={handleSubmit} >
+    <div className=" flex justify-center space-x-20  ">
+      <button onClick={handleSubmit} className="upload">
         <UploadIcon size={38} color="white"></UploadIcon>
       </button>
-      {id && <button onClick={deleteFiles}>
+      {id && <button onClick={deleteFiles} className="clear">
         <ArchiveX size={38} color="white"></ArchiveX>
       </button>}
       
     </div>
-    <div className="w-36 mx-auto flex mt-20 custom-font items-center justify-center h-16 rounded-2xl text-white text-2xl bg-gray-950 border-2 border-dotte border-gray-900 ">
+    <div className="w-36 mx-auto render flex mt-20 custom-font items-center justify-center h-16 rounded-2xl text-white text-2xl bg-gray-950 border-2 border-dotte border-gray-900 ">
       <button onClick={getVideo}>Render</button>
     </div>
     
